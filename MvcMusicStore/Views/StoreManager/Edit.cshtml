@@ -1,7 +1,7 @@
 ﻿@model MvcMusicStore.Models.Album
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit - " + Model.Title;
 }
 
 <h2>Edit</h2>
@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+   
     <div class="form-horizontal">
         <h4>Album</h4>
         <hr />
@@ -18,10 +18,20 @@
         @Html.HiddenFor(model => model.AlbumId)
 
         <div class="form-group">
+            @Html.Label("Price", "PPP", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Price")
+                @Html.TextBox("Title", Model.Title)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.GenreId, "GenreId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("GenreId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.GenreId, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.GenreId)
+                @Html.DropDownList("GenreId", null, htmlAttributes: new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.GenreId, ViewBag.Genres33 as SelectList)
+                @Html.ValidationMessageFor(model => model.GenreId, "", new {@class = "text-danger"})
             </div>
         </div>
 
@@ -55,6 +65,21 @@
                 @Html.EditorFor(model => model.AlbumArtUrl, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AlbumArtUrl, "", new { @class = "text-danger" })
             </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.RadioButtonFor(m => m.GenreId, "1") Rock
+            @Html.RadioButtonFor(m => m.GenreId, "2") Jazz
+            @Html.RadioButtonFor(m => m.GenreId, "3") Pop
+            @Html.Label("chkTest", "MyCheckBox")
+            @Html.CheckBox("chkTest", true)
+
+            @Html.ActionLink("Link Text", "Details", new { id = 1 }, null)
+            @Html.ActionLink("The Same Link Text", "Details", "StoreManager", new { id = 1 }, null)
+        </div>
+        
+        <div class="form-group">
+            @Url.Action("Edit","StoreManager", new {param = 1}, null)
         </div>
 
         <div class="form-group">

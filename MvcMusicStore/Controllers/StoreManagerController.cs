@@ -71,12 +71,15 @@ namespace MvcMusicStore.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Album album = db.Albums.Find(id);
+	        ModelState.AddModelError("", "What!");
+			ModelState.AddModelError("Title", "What a Title!");
             if (album == null)
             {
                 return HttpNotFound();
             }
             ViewBag.ArtistId = new SelectList(db.Artists, "ArtistId", "Name", album.ArtistId);
-            ViewBag.GenreId = new SelectList(db.Genres, "GenreId", "Name", album.GenreId);
+            ViewBag.GenreId = new SelectList(db.Genres.OrderBy(o => o.Name), "GenreId", "Name", album.GenreId);
+	        ViewBag.Price = 10.0;
             return View(album);
         }
 
